@@ -70,7 +70,20 @@ def RegistroPartes(x) -> 'void':
 	#Procedemos a continuar la función dependiendo de la opción seleccionada por el usuario
 
 	if (y==1):
-		print("Esta opción carga un archivo")
+		while True:
+			try:
+				z=str(input("Introduzca el nombre exacto del archivo a reporducir: "))
+				s = converter.parse(z)
+				break
+			except:
+				print("El archivo no existe, intente de nuevo")
+		
+		sp = midi.realtime.StreamPlayer(s)
+		
+		print("Reproduciendo ",z,"...")
+		sp.play()
+		RegistroPartes(x)
+
 	elif(y==2):
 		print("Esta opción genera un arpegio")
 	elif(y==3):

@@ -31,6 +31,10 @@ sp = midi.realtime.StreamPlayer(parte1)
 sp.play()
 print("Hol vale")
 
+print("Reproduciendo ...")
+s = converter.parse('cancion2.tinynotation')
+sp = midi.realtime.StreamPlayer(s)
+sp.play()
 
 
 
