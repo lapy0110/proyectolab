@@ -38,6 +38,7 @@ def MenuComposición (x) -> 'void':
 		RegistroPartes(y)
 	elif(y==5):
 		print("Esta función aun no ha sido codeada")
+		MenuComposición(x)
 	else:
 		#Se utiliza la librería Sys para poder finalizar el programa
 		sys.exit()
@@ -89,7 +90,17 @@ print("Seleccione la opción que desea realizar:")
 print("	1-.Cargar Composición")
 print("	2-.Salir")
 
-e=int(input("Inserte la opicón que considere: "))
+#Se Solicita la entrada del menú de manera Robusta, así en caso de errores, la persona puede
+#continuar ingesando numeros hasta que este el valor correcto
+while True:
+	try:
+		e=int(input("Inserte la opicón que considere: "))
+		assert(0<e<3)
+		break
+	except:
+		print("Esta opción no esta dentro del menú")
+		print("Vuelve a intentar")
+
 
 if (e==1):
 	#Se ingresa al submenú donde aparecen las opciones de la composición
