@@ -121,3 +121,9 @@ if (e==1):
 elif(e==2):
 	#Se utiliza la librería Sys para finalizar el programa
 	sys.exit()
+
+
+
+
+
+
