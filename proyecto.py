@@ -80,7 +80,7 @@ def RegistroPartes(x) -> 'void':
 		
 		sp = midi.realtime.StreamPlayer(s)
 		
-		print("Reproduciendo ",z,"...")
+		print("Reproduciendo",z,"...")
 		sp.play()
 		RegistroPartes(x)
 
