@@ -1,16 +1,25 @@
-############################################# Librerias ############################################3
+#Entrega1ci2691AbrJul118_15-10088_15-11138.py
+# DESCRIPCION: Primera fase del proyecto "Compositor Musical" de laboratorio de algoritmos 1
+#	Luis Alfonso Pino y Félix Arnos
+# Ultima modificacion: 23/07/2018
+# VARIABLES:
+#	e: int // ENTRADA: Opcion del menu principal a utilizar
+
+#Librerias 
 
 import sys
 from music21 import *
 from pygame import *
 
-######################################## Declaración Variables ####################################
+#Variables
 
-e=0
+e=0 # Variable de entrada del menu inicial
 
-##################################################### Funciones ##########################################
+#Funciones y Procedimientos
 
 def MenuComposición (x) -> 'void':
+	#Precondición: 0<y<7
+	#Postcondición: True 
 	print("")
 	print("---------------------------------------------")
 	print("1-. Registrar Parte 1")
@@ -37,7 +46,7 @@ def MenuComposición (x) -> 'void':
 	if (0<y<5):
 		RegistroPartes(y)
 	elif(y==5):
-		print("Esta función aun no ha sido codeada")
+		print("Esta función permite escuchar la composición completa")
 		MenuComposición(x)
 	else:
 		#Se utiliza la librería Sys para poder finalizar el programa
@@ -45,6 +54,8 @@ def MenuComposición (x) -> 'void':
 
 #--------------------------------------------------------------------------------------
 def RegistroPartes(x) -> 'void':
+	#Precondición: 0<y<7
+	#Postcondición: True
 	print("")
 	print("---------------------------------------------")
 	print("          ESTAS EN EL MENU DE LA PARTE ",x)
@@ -86,23 +97,29 @@ def RegistroPartes(x) -> 'void':
 
 	elif(y==2):
 		print("Esta opción genera un arpegio")
+		RegistroPartes(x)
 	elif(y==3):
 		print("Esta opción realiza un transporte")
+		RegistroPartes(x)
 	elif(y==4):
 		print("Esta opción hace que se escuche esta parte")
+		RegistroPartes(x)
 	elif(y==5):
 		print("Esta parte borra toda la composición")
+		RegistroPartes(x)
 	else:
 		MenuComposición(x)
 
 #--------------------------------------------------------------------------------------
 
-##########################################################Main#####################################################
-print("Bienvenido al compositor musical de Pino y Felix")
+#Programa Principal
+
+print("Bienvenido al compositor musical")
 print("Seleccione la opción que desea realizar:")
 print("	1-.Cargar Composición")
 print("	2-.Salir")
 
+#Precondición
 #Se Solicita la entrada del menú de manera Robusta, así en caso de errores, la persona puede
 #continuar ingesando numeros hasta que este el valor correcto
 while True:
@@ -114,10 +131,13 @@ while True:
 		print("Esta opción no esta dentro del menú")
 		print("Vuelve a intentar")
 
-
+#Calculos
 if (e==1):
 	#Se ingresa al submenú donde aparecen las opciones de la composición
 	MenuComposición(e)
 elif(e==2):
 	#Se utiliza la librería Sys para finalizar el programa
 	sys.exit()
+
+#Postcondición
+assert(True)
