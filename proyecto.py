@@ -5,18 +5,19 @@
 # VARIABLES:
 #	e: int // ENTRADA: Opcion del menu principal a utilizar
 
-#Librerias 
+######################################## Librerias ################################################
 
 import sys
 from music21 import *
 from pygame import *
 
-#Variables
+######################################## Variables #################################################
+
 global partes #Aqui definimos el arreglo como global para usarlo en las funciones
 partes=['','','',''] #Arreglo donde se guardan los archvos de las partes
 e=0 # Variable de entrada del menu inicial
 
-#Funciones y Procedimientos
+################################## Funciones y Procedimientos #######################################
 
 def MenuComposición (x) -> 'void':
 	#Precondición: 0<y<7
@@ -124,7 +125,7 @@ def RegistroPartes(x) -> 'void':
 
 #--------------------------------------------------------------------------------------
 
-#Programa Principal
+##################################### Programa Principal ############################################## 
 
 print("Bienvenido al compositor musical")
 print("Seleccione la opción que desea realizar:")
