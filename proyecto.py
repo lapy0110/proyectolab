@@ -12,7 +12,8 @@ from music21 import *
 from pygame import *
 
 #Variables
-
+global partes #Aqui definimos el arreglo como global para usarlo en las funciones
+partes=['','','',''] #Arreglo donde se guardan los archvos de las partes
 e=0 # Variable de entrada del menu inicial
 
 #Funciones y Procedimientos
@@ -20,6 +21,8 @@ e=0 # Variable de entrada del menu inicial
 def MenuComposición (x) -> 'void':
 	#Precondición: 0<y<7
 	#Postcondición: True 
+	global partes
+
 	print("")
 	print("---------------------------------------------")
 	print("1-. Registrar Parte 1")
@@ -56,6 +59,9 @@ def MenuComposición (x) -> 'void':
 def RegistroPartes(x) -> 'void':
 	#Precondición: 0<y<7
 	#Postcondición: True
+	
+	global partes
+
 	print("")
 	print("---------------------------------------------")
 	print("          ESTAS EN EL MENU DE LA PARTE ",x)
@@ -83,16 +89,14 @@ def RegistroPartes(x) -> 'void':
 	if (y==1):
 		while True:
 			try:
+				#Aqui falta ver como anular la operación
 				z=str(input("Introduzca el nombre exacto del archivo a reporducir: "))
-				s = converter.parse(z)
+				partes[x-1] = converter.parse(z)
 				break
 			except:
 				print("El archivo no existe, intente de nuevo")
 		
-		sp = midi.realtime.StreamPlayer(s)
-		
-		print("Reproduciendo",z,"...")
-		sp.play()
+		print("El archivo fue cargado de manera exitosa en la parte ",x)
 		RegistroPartes(x)
 
 	elif(y==2):
@@ -102,10 +106,18 @@ def RegistroPartes(x) -> 'void':
 		print("Esta opción realiza un transporte")
 		RegistroPartes(x)
 	elif(y==4):
-		print("Esta opción hace que se escuche esta parte")
+		try:
+			sp = midi.realtime.StreamPlayer(partes[x-1])
+			print("Reproduciendo...")
+		except:
+			print("Esta parte no se puede reproducir")
+			RegistroPartes(x)
+			
+		sp.play()
 		RegistroPartes(x)
 	elif(y==5):
-		print("Esta parte borra toda la composición")
+		partes[x-1] = ''
+		print("Esta parte ha sido borrada exitosamente")
 		RegistroPartes(x)
 	else:
 		MenuComposición(x)
