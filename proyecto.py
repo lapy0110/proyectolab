@@ -124,11 +124,31 @@ def RegistroPartes(x) -> 'void':
 
 #--------------------------------------------------------------------------------------
 def transporte(x) -> 'void':
+	
+	global partes
+	d=''
+
 	while  True:
 		try:
 			i=int(input("De que alto desea que sea el intervalo de transporte: "))
-			assert()
+			assert(1<=i<=8)
+			break
+		except:
+			print("Este intervalo no puede ser procesado")
+			print("Debe estar entre 1 y 8. Por favor vuela a intentar")
+	
+	while True:
+		try:
+			c=input("Desea que este transporte sea Mayor (M), Menor (m) o exacto(p)?: ")
+			assert(c=='M' or c=='m' or c=='p' or c=='P')
+			break
+		except:
+			print("Esta opción no es admitida, por favor ingrese una opción adecuada")
 
+	d=c+str(i) #Convertimos el valor entero que introdujo el usuario para poder realizar el transporte
+	print(d)
+	print("El transporte se realizó exitosamente")
+	RegistroPartes(x)
 
 
 ##################################### Programa Principal ############################################## 
