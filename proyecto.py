@@ -104,8 +104,7 @@ def RegistroPartes(x) -> 'void':
 		print("Esta opción genera un arpegio")
 		RegistroPartes(x)
 	elif(y==3):
-		print("Esta opción realiza un transporte")
-		RegistroPartes(x)
+		transporte(x)
 	elif(y==4):
 		try:
 			sp = midi.realtime.StreamPlayer(partes[x-1])
@@ -124,6 +123,13 @@ def RegistroPartes(x) -> 'void':
 		MenuComposición(x)
 
 #--------------------------------------------------------------------------------------
+def transporte(x) -> 'void':
+	while  True:
+		try:
+			i=int(input("De que alto desea que sea el intervalo de transporte: "))
+			assert()
+
+
 
 ##################################### Programa Principal ############################################## 
 
