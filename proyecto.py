@@ -145,8 +145,12 @@ def transporte(x) -> 'void':
 		except:
 			print("Esta opción no es admitida, por favor ingrese una opción adecuada")
 
-	d=c+str(i) #Convertimos el valor entero que introdujo el usuario para poder realizar el transporte
-	print(d)
+	d=c+str(i)#Convertimos el valor entero que introdujo el usuario para poder realizar el transporte
+	print(partes[x-1])	
+	sp = partes[x-1].transpose(d)
+	print(sp)
+	partes[x-1]=sp
+	#Aqui queda pendiete filtrar los casos bases con un if o con Asserts
 	print("El transporte se realizó exitosamente")
 	RegistroPartes(x)
 
