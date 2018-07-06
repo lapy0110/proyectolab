@@ -101,8 +101,7 @@ def RegistroPartes(x) -> 'void':
 		RegistroPartes(x)
 
 	elif(y==2):
-		print("Esta opción genera un arpegio")
-		RegistroPartes(x)
+		Arpegio(x)
 	elif(y==3):
 		transporte(x)
 	elif(y==4):
@@ -131,29 +130,51 @@ def transporte(x) -> 'void':
 	while  True:
 		try:
 			i=int(input("De que alto desea que sea el intervalo de transporte: "))
-			assert(1<=i<=8)
-			break
-		except:
-			print("Este intervalo no puede ser procesado")
-			print("Debe estar entre 1 y 8. Por favor vuela a intentar")
-	
-	while True:
-		try:
 			c=input("Desea que este transporte sea Mayor (M), Menor (m) o exacto(p)?: ")
-			assert(c=='M' or c=='m' or c=='p' or c=='P')
+			assert(1<=i<=8 and c=='M' or c=='m' or c=='p' or c=='P')
 			break
 		except:
 			print("Esta opción no es admitida, por favor ingrese una opción adecuada")
+		
 
-	d=c+str(i)#Convertimos el valor entero que introdujo el usuario para poder realizar el transporte
-	print(partes[x-1])	
+	d=c+str(i)#Convertimos el valor entero que introdujo el usuario para poder realizar el transporte	
 	sp = partes[x-1].transpose(d)
 	print(sp)
 	partes[x-1]=sp
 	#Aqui queda pendiete filtrar los casos bases con un if o con Asserts
 	print("El transporte se realizó exitosamente")
 	RegistroPartes(x)
+#------------------------------------------------------------------------------------
+def Arpegio(x:int) -> 'void':
+	global partes
 
+	while True:
+		try:
+			a=input("Introduzca el tono inicial del arpegio: ")
+			b=input("Introduzca la escala de dicho tono: ")
+			assert((a=='A'or a=='B' or a=='C'or a=='D' or a=='E' or a=='F' or a=='G') and (0<b<8))
+		except:
+			print("Este tono no es valido, por favor intentelo nuevamente")
+
+
+	while  True:
+		try:
+			i=int(input("De que alto desea que sea el intervalo del Arpegio: "))
+			c=input("Desea que este transporte sea Mayor (M), Menor (m) o exacto(p)?: ")
+			assert(1<=i<=8 and c=='M' or c=='m' or c=='p' or c=='P')
+			break
+		except:
+			print("Esta opción no es admitida, por favor ingrese una opción adecuada")
+	
+	c = a+b
+	arpegio= stream.part()
+	nota=note.Note(c)
+
+	for i in range(0, 8):
+		arpegio.append(nota)
+		nota = nota.transpose("m3")
+		
+	
 
 ##################################### Programa Principal ############################################## 
 
