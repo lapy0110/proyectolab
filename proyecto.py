@@ -105,14 +105,19 @@ def RegistroPartes(x) -> 'void':
 	elif(y==3):
 		transporte(x)
 	elif(y==4):
-		try:
-			sp = midi.realtime.StreamPlayer(partes[x-1])
-			print("Reproduciendo...")
-		except:
-			print("Esta parte no se puede reproducir")
+		if (partes[x-1]==''):
+			print("Esta parte aun no tiene registro")
 			RegistroPartes(x)
+		else:
+			try:
+				sp = midi.realtime.StreamPlayer(partes[x-1])
+				print("Reproduciendo...")
+			except:
+				print("Esta parte no se puede reproducir")
+				RegistroPartes(x)
 			
-		sp.play()
+			sp.play()
+
 		RegistroPartes(x)
 	elif(y==5):
 		partes[x-1] = ''
@@ -151,8 +156,9 @@ def Arpegio(x:int) -> 'void':
 	while True:
 		try:
 			a=input("Introduzca el tono inicial del arpegio: ")
-			b=input("Introduzca la escala de dicho tono: ")
+			b=int(input("Introduzca la escala de dicho tono: "))
 			assert((a=='A'or a=='B' or a=='C'or a=='D' or a=='E' or a=='F' or a=='G') and (0<b<8))
+			break
 		except:
 			print("Este tono no es valido, por favor intentelo nuevamente")
 
@@ -166,13 +172,15 @@ def Arpegio(x:int) -> 'void':
 		except:
 			print("Esta opción no es admitida, por favor ingrese una opción adecuada")
 	
-	c = a+b
-	arpegio= stream.part()
+	c = a+str(b)
+	arpegio= stream.Part()
 	nota=note.Note(c)
 
 	for i in range(0, 8):
 		arpegio.append(nota)
 		nota = nota.transpose("m3")
+
+	partes[x-1] = arpegio
 		
 	
 
