@@ -1,7 +1,7 @@
-#Entrega1ci2691AbrJul118_15-10088_15-11138.py
-# DESCRIPCION: Primera fase del proyecto "Compositor Musical" de laboratorio de algoritmos 1
+#Entrega2ci2691AbrJul118_15-10088_15-11138.py
+# DESCRIPCION: Proyecto "Compositor Musical" de laboratorio de Algoritmos y Estrucutras 1
 #	Luis Alfonso Pino y Félix Arnos
-# Ultima modificacion: 23/07/2018
+# Ultima modificacion: 07/07/2018
 # VARIABLES:
 #	e: int // ENTRADA: Opcion del menu principal a utilizar
 
@@ -24,7 +24,6 @@ def MenuComposición (x) -> 'void':
 	#Postcondición: True 
 	global partes
 
-	print("")
 	print("---------------------------------------------")
 	print("1-. Registrar Parte 1")
 	print("2-. Registrar Parte 2")
@@ -63,7 +62,6 @@ def RegistroPartes(x) -> 'void':
 	
 	global partes
 
-	print("")
 	print("---------------------------------------------")
 	print("          ESTAS EN EL MENU DE LA PARTE ",x)
 	print("---------------------------------------------")
@@ -102,8 +100,10 @@ def RegistroPartes(x) -> 'void':
 
 	elif(y==2):
 		Arpegio(x)
+
 	elif(y==3):
 		transporte(x)
+
 	elif(y==4):
 		if (partes[x-1]==''):
 			print("Esta parte aun no tiene registro")
@@ -119,10 +119,12 @@ def RegistroPartes(x) -> 'void':
 			sp.play()
 
 		RegistroPartes(x)
+
 	elif(y==5):
 		partes[x-1] = ''
 		print("Esta parte ha sido borrada exitosamente")
 		RegistroPartes(x)
+
 	else:
 		MenuComposición(x)
 
@@ -141,13 +143,15 @@ def transporte(x) -> 'void':
 		except:
 			print("Esta opción no es admitida, por favor ingrese una opción adecuada")
 		
-
-	d=c+str(i)#Convertimos el valor entero que introdujo el usuario para poder realizar el transporte	
-	sp = partes[x-1].transpose(d)
-	print(sp)
-	partes[x-1]=sp
-	#Aqui queda pendiete filtrar los casos bases con un if o con Asserts
-	print("El transporte se realizó exitosamente")
+	if (partes[x-1]==''):
+		print("No existe una parte registrada")
+	else:
+		d=c+str(i)#Convertimos el valor entero que introdujo el usuario para poder realizar el transporte	
+		sp = partes[x-1].transpose(d)
+		partes[x-1]=sp
+		#Aqui queda pendiete filtrar los casos bases con un if o con Asserts
+		print("El transporte se realizó exitosamente")
+	
 	RegistroPartes(x)
 #------------------------------------------------------------------------------------
 def Arpegio(x:int) -> 'void':
@@ -183,7 +187,6 @@ def Arpegio(x:int) -> 'void':
 	partes[x-1] = arpegio
 		
 	
-
 ##################################### Programa Principal ############################################## 
 
 print("Bienvenido al compositor musical")
