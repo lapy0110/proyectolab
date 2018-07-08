@@ -5,24 +5,38 @@
 # VARIABLES:
 #	e: int // ENTRADA: Opcion del menu principal a utilizar
 
-######################################## Librerias ################################################
+######################################################### Librerias ################################################
 
 import sys
+from tkinter import *
 from music21 import *
 from pygame import *
 
-######################################## Variables #################################################
+####################################################### Interfaz Grafica ###########################################
+
+#Ventana inicial
+
+#Ventana
+raiz= Tk() #Definimos la ventana raiz de nuestro programa
+raiz.geometry('300x200') #Definimos el tamaño que tendra nuestra ventana
+raiz.title('Compositor Musical') #Definimos el titulo de la ventana principal
+
+#Botones
+ttk.Button(raiz, text='Salir',command=quit).pack(side=bottom)
+raiz.mainloop()
+
+######################################################## Variables #################################################
 
 global partes #Aqui definimos el arreglo como global para usarlo en las funciones
 partes=['','','',''] #Arreglo donde se guardan los archvos de las partes
 e=0 # Variable de entrada del menu inicial
 
-################################## Funciones y Procedimientos #######################################
+################################################## Funciones y Procedimientos #######################################
 
 def MenuComposición (x) -> 'void':
 	#Precondición: 0<y<7
 	#Postcondición: True 
-	global partes
+	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
 
 	print("---------------------------------------------")
 	print("1-. Registrar Parte 1")
@@ -60,7 +74,7 @@ def RegistroPartes(x) -> 'void':
 	#Precondición: 0<y<7
 	#Postcondición: True
 	
-	global partes
+	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
 
 	print("---------------------------------------------")
 	print("          ESTAS EN EL MENU DE LA PARTE ",x)
@@ -99,16 +113,22 @@ def RegistroPartes(x) -> 'void':
 		RegistroPartes(x)
 
 	elif(y==2):
-		Arpegio(x)
+		Arpegio(x) #Hacemos el llamado a la función Arpegio donde se realiza el proceso de creación de un arpegio para guardarlo
+		#en la parte que solicite el usuario
 
 	elif(y==3):
-		transporte(x)
+		transporte(x) #Hacemos el llamado a la función Transporte donde se realiza el transprote de la melodía solciitada por el
+		#usuario
 
 	elif(y==4):
+
+		#Primero verificamos si la parte que el usurio desea ya tiene un registro
 		if (partes[x-1]==''):
+			#En este caso, en el arreglo donde se guardan las partes no posee ninguna "part" registrada, por ende se informa
 			print("Esta parte aun no tiene registro")
 			RegistroPartes(x)
 		else:
+			#En este caso ya existe una parte registrada, se procede a realizar la reproedyucción de la melodía 
 			try:
 				sp = midi.realtime.StreamPlayer(partes[x-1])
 				print("Reproduciendo...")
@@ -118,31 +138,40 @@ def RegistroPartes(x) -> 'void':
 			
 			sp.play()
 
-		RegistroPartes(x)
+		RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
 
 	elif(y==5):
-		partes[x-1] = ''
+		partes[x-1] = '' #Sustituimos el contenido de esta parte del arreglo por un espacio vacio de tipo string, así el
+		#contenido que había sido registrado ene sta parte es eliminado
 		print("Esta parte ha sido borrada exitosamente")
-		RegistroPartes(x)
+		RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
 
 	else:
-		MenuComposición(x)
+		MenuComposición(x) # En caso de que el usurio lo solciite, se regresa al menú previo
 
 #--------------------------------------------------------------------------------------
 def transporte(x) -> 'void':
 	
-	global partes
+	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
 	d=''
+
+	#Se Solicita la entrada del intervalo de transporte de manera Robusta, así en caso de errores, la persona puede
+	#continuar ingesando un valor de intervalo hasta que sea admisible. E igualmente en caso de que el intervalo 
+	#solcitiado no coincida con un valor aceptado por la librería, igualmente dará un mensaje de error y permitirá
+	#reintroducir los datos 
 
 	while  True:
 		try:
 			i=int(input("De que alto desea que sea el intervalo de transporte: "))
 			c=input("Desea que este transporte sea Mayor (M), Menor (m) o exacto(p)?: ")
-			assert(1<=i<=8 and c=='M' or c=='m' or c=='p' or c=='P')
+			assert(1<=i<=8 and c=='M' or c=='m' or c=='p' or c=='P') #Verificación de que los datos ingresados son correctos
+			assert((c=='p' and (i==1 or i==4 or i==5 or i==8)) or ((c=='m' or c== 'M') and (i==2 or i==3 or i==6 or i==7 )))
+			#En esta seguna aserción verificamos que la entrada de datos coincida con la tabla de intervalos de la libreria
+			#Music21
 			break
 		except:
 			print("Esta opción no es admitida, por favor ingrese una opción adecuada")
-		
+			
 	if (partes[x-1]==''):
 		print("No existe una parte registrada")
 	else:
@@ -152,10 +181,10 @@ def transporte(x) -> 'void':
 		#Aqui queda pendiete filtrar los casos bases con un if o con Asserts
 		print("El transporte se realizó exitosamente")
 	
-	RegistroPartes(x)
+	RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
 #------------------------------------------------------------------------------------
 def Arpegio(x:int) -> 'void':
-	global partes
+	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
 
 	while True:
 		try:
@@ -169,25 +198,31 @@ def Arpegio(x:int) -> 'void':
 
 	while  True:
 		try:
-			i=int(input("De que alto desea que sea el intervalo del Arpegio: "))
+			i=int(input("De que alto desea que sea el intervalo de transporte: "))
 			c=input("Desea que este transporte sea Mayor (M), Menor (m) o exacto(p)?: ")
-			assert(1<=i<=8 and c=='M' or c=='m' or c=='p' or c=='P')
+			assert(1<=i<=8 and c=='M' or c=='m' or c=='p' or c=='P') #Verificación de que los datos ingresados son correctos
+			assert((c=='p' and (i==1 or i==4 or i==5 or i==8)) or ((c=='m' or c== 'M') and (i==2 or i==3 or i==6 or i==7 )))
+			#En esta seguna aserción verificamos que la entrada de datos coincida con la tabla de intervalos de la libreria
+			#Music21
 			break
 		except:
 			print("Esta opción no es admitida, por favor ingrese una opción adecuada")
+
 	
-	c = a+str(b)
+	No = a + str(b) #Utilizando la entrada del usuario generamos una nota incial para el arpegio
+	h = c + str(i) #Utilizando la entrada del usuario generamos el intervalo de transporte del arpegio
+
 	arpegio= stream.Part()
-	nota=note.Note(c)
+	nota=note.Note(No) #Damos el atributo de Nota a la varible "nota" para realizar el arpegio
 
 	for i in range(0, 8):
 		arpegio.append(nota)
-		nota = nota.transpose("m3")
+		nota = nota.transpose(c)
 
 	partes[x-1] = arpegio
 		
 	
-##################################### Programa Principal ############################################## 
+################################################### Programa Principal ############################################## 
 
 print("Bienvenido al compositor musical")
 print("Seleccione la opción que desea realizar:")
