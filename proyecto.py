@@ -111,7 +111,10 @@ def transporte(x) -> 'void':
 	#continuar ingesando un valor de intervalo hasta que sea admisible. E igualmente en caso de que el intervalo 
 	#solcitiado no coincida con un valor aceptado por la librería, igualmente dará un mensaje de error y permitirá
 	#reintroducir los datos 
-
+	os.system('clear')
+	print("Estos son los intervalos de transporte disponibles-:")
+	print("P1     M2     m2     M3     M3     P4")
+	print("P5     M6     m6     M7     m7     P8")
 	while  True:
 		try:
 			i=int(input("De que alto desea que sea el intervalo de transporte: "))
@@ -138,17 +141,21 @@ def transporte(x) -> 'void':
 	RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
 def Arpegio(x:int) -> 'void':
 	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
-
+	os.system('clear')
 	while True:
 		try:
 			a=input("Introduzca el tono inicial del arpegio: ")
 			b=int(input("Introduzca la escala de dicho tono: "))
 			assert((a=='A'or a=='B' or a=='C'or a=='D' or a=='E' or a=='F' or a=='G') and (0<b<8))
+			print("Nota Registrada")
+			print("")
 			break
 		except:
 			print("Este tono no es valido, por favor intentelo nuevamente")
 
-
+	print("Estos son los intervalos de transporte disponibles-:")
+	print("P1     M2     m2     M3     M3     P4")
+	print("P5     M6     m6     M7     m7     P8")
 	while  True:
 		try:
 			i=int(input("De que alto desea que sea el intervalo de transporte: "))
@@ -180,16 +187,18 @@ def Arpegio(x:int) -> 'void':
 def EscucharCancion(x:int) -> 'void':
 	cancion=stream.Score()
 
-	for i in range(0,3):
+	for i in range(0,4):
 		if (partes[i]!=''):
 			cancion.insert(0,partes[i])
 		else:
 			pass
 
 	sp = midi.realtime.StreamPlayer(cancion)
+	os.system('clear')
 	print("Reproduciendo composición completa")
 	sp.play()
 def Registrar(x:int) -> 'void':
+	os.system('clear')
 	while True:
 			try:
 				#Aqui falta ver como anular la operación
@@ -208,6 +217,7 @@ def Registrar(x:int) -> 'void':
 	RegistroPartes(x)
 def Reproduciendo(x) -> 'void':
 	#Primero verificamos si la parte que el usurio desea ya tiene un registro
+	os.system('clear')
 	if (partes[x-1]==''):
 		#En este caso, en el arreglo donde se guardan las partes no posee ninguna "part" registrada, por ende se informa			
 		print("Esta parte aun no tiene registro")
