@@ -20,12 +20,12 @@ e=0 # Variable de entrada del menu inicial
 
 ################################################## Funciones y Procedimientos #######################################
 
-def MenuComposición (x) -> 'void':
+def MenuComposición (x:int) -> 'void':
 	#Precondición: 0<y<7
 	#Postcondición: True 
 	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
 
-	os.system('clear')
+	os.system('clear') #Utilizamos esta función para limpiar la pantalla de la terminal y solo se vea el menú en ejecución
 	print("---------------------------------------------")
 	print("                MENU PRINCIPAL               ")
 	print("---------------------------------------------")
@@ -48,7 +48,8 @@ def MenuComposición (x) -> 'void':
 			print("Esta opción no esta dentro del menú")
 			print("Vuelve a intentar")
 
-	#Procedemos a continuar la función dependiendo de la opción seleccionada por el usuario
+	#Procedemos a continuar la función dependiendo de la opción seleccionada por el usuario, es decir que en cada opción
+	#seleccionada, filtrando con un condicional, se decide a cual función llamar según la decisión del usuario
 
 	if (0<y<5):
 		RegistroPartes(y)
@@ -58,13 +59,13 @@ def MenuComposición (x) -> 'void':
 	else:
 		#Se utiliza la librería Sys para poder finalizar el programa
 		sys.exit()
-def RegistroPartes(x) -> 'void':
+def RegistroPartes(x:int) -> 'void':
 	#Precondición: 0<y<7
 	#Postcondición: True
 	
 	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
 
-	os.system('clear')
+	os.system('clear') #Utilizamos esta función para limpiar la pantalla de la terminal y solo se vea el menú en ejecución
 	print("---------------------------------------------")
 	print("          ESTAS EN EL MENU DE LA PARTE ",x)
 	print("---------------------------------------------")
@@ -86,23 +87,23 @@ def RegistroPartes(x) -> 'void':
 		except:
 			print("Esta opción no esta dentro del menú")
 			print("Vuelve a intentar")
-	#Procedemos a continuar la función dependiendo de la opción seleccionada por el usuario
+	#Procedemos a continuar la función dependiendo de la opción seleccionada por el usuario, es decir que en cada opción
+	#seleccionada, filtrando con un condicional, se decide a cual función llamar según la decisión del usuario. Cada una de
+	#estas corresponde a un subprograma funcional, es decir que ejecuta una opción, no un menú de opciones para ser elegidas
 
 	if (y==1):
 		Registrar(x)
 	elif(y==2):
-		Arpegio(x) #Hacemos el llamado a la función Arpegio donde se realiza el proceso de creación de un arpegio para guardarlo
-		#en la parte que solicite el usuario
+		Arpegio(x) 
 	elif(y==3):
-		transporte(x) #Hacemos el llamado a la función Transporte donde se realiza el transprote de la melodía solciitada por el
-		#usuario
+		transporte(x) 
 	elif(y==4):
 		Reproduciendo(x)
 	elif(y==5):
 		Borrar(x)
 	else:
-		MenuComposición(x) # En caso de que el usurio lo solciite, se regresa al menú previo
-def transporte(x) -> 'void':
+		MenuComposición(x) # En caso de que el usurio lo solicite, se regresa al menú previo
+def transporte(x:int) -> 'void':
 	
 	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
 	d=''
@@ -111,10 +112,17 @@ def transporte(x) -> 'void':
 	#continuar ingesando un valor de intervalo hasta que sea admisible. E igualmente en caso de que el intervalo 
 	#solcitiado no coincida con un valor aceptado por la librería, igualmente dará un mensaje de error y permitirá
 	#reintroducir los datos 
-	os.system('clear')
+
+	os.system('clear') #Utilizamos esta función para limpiar la pantalla de la terminal y solo se vea el menú en ejecución
 	print("Estos son los intervalos de transporte disponibles-:")
 	print("P1     M2     m2     M3     M3     P4")
 	print("P5     M6     m6     M7     m7     P8")
+
+	#En la parte superior le damos al usuario las opciones de intervalo de trasnporte que nuestro programa ofrece para evitar
+	#confusiones y errores por introducir un intervalo erroreo
+
+	#Se Solicita la entrada del intervalo de manera Robusta, así en caso de errores, la persona puede
+	#continuar ingesando numeros hasta que este el valor correcto
 	while  True:
 		try:
 			i=int(input("De que alto desea que sea el intervalo de transporte: "))
@@ -126,22 +134,27 @@ def transporte(x) -> 'void':
 			break
 		except:
 			print("Esta opción no es admitida, por favor ingrese una opción adecuada")
-			
+	
+	#Utilizando un condicional verificamos que existe una parte registrada para realizar el transporte. En caso de no existir
+	#Muestra un mensaje de error y regresa al menú anterior. En caso de existir, se realiza el proceso de transporte
+
 	if (partes[x-1]==''):
 		print("No existe una parte registrada")
 		time.delay(5000)
 	else:
 		d=c+str(i)#Convertimos el valor entero que introdujo el usuario para poder realizar el transporte	
-		sp = partes[x-1].transpose(d)
+		sp = partes[x-1].transpose(d) #Función de music21 que realiza el transporte
 		partes[x-1]=sp
-		#Aqui queda pendiete filtrar los casos bases con un if o con Asserts
 		print("El transporte se realizó exitosamente")
 		time.delay(5000)
 	
 	RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
 def Arpegio(x:int) -> 'void':
 	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
-	os.system('clear')
+	os.system('clear') #Utilizamos esta función para limpiar la pantalla de la terminal y solo se vea el menú en ejecución
+	
+	#Se Solicita la entrada de la nota inicial de manera Robusta, así en caso de errores, la persona puede
+	#continuar ingesando numeros hasta que este el valor correcto
 	while True:
 		try:
 			a=input("Introduzca el tono inicial del arpegio: ")
@@ -152,6 +165,10 @@ def Arpegio(x:int) -> 'void':
 			break
 		except:
 			print("Este tono no es valido, por favor intentelo nuevamente")
+
+
+	#Se Solicita la entrada del Intervalo de Trasnsporte de manera Robusta, así en caso de errores, la persona puede
+	#continuar ingesando numeros hasta que este el valor correcto
 
 	print("Estos son los intervalos de transporte disponibles-:")
 	print("P1     M2     m2     M3     M3     P4")
@@ -172,20 +189,26 @@ def Arpegio(x:int) -> 'void':
 	No = a + str(b) #Utilizando la entrada del usuario generamos una nota incial para el arpegio
 	h = c + str(i) #Utilizando la entrada del usuario generamos el intervalo de transporte del arpegio
 
-	arpegio = stream.Part()
+	arpegio = stream.Part() #Generamos un archivo de tipo part para agregar las notas del arpegio
 	nota = note.Note(No) #Damos el atributo de Nota a la varible "nota" para realizar el arpegio
+
+	#Utilizando un ciclo for se agregan las notas que van siendo transportadas al arpegio para que luego sea guardado en una
+	#parte
 
 	for i in range(0, 8):
 		arpegio.append(nota)
 		nota = nota.transpose(h)
 
-	partes[x-1] = arpegio
-	os.system('clear')
+	partes[x-1] = arpegio #Asignamos a la parte correspondiente el arpegio ya creado
+	os.system('clear') #Utilizamos esta función para limpiar la pantalla de la terminal y solo se vea el mensaje en pantalla
 	print("El arpegio ha sido creado exitosamente")
 	time.delay(5000)
 	RegistroPartes(x)
 def EscucharCancion(x:int) -> 'void':
-	cancion=stream.Score()
+	cancion=stream.Score() #Creaamos un valor stream.Score que nos reproducirá todas las partes en paralelo
+
+	#Con un ciclo for unimos la parte al objeto canción. Este ciclo realiza el filtro con un If: Si la parte esta registrada
+	#Entonces esta es agregada al Score, de lo contrario esta parte del arreglo es ignorada y se evalua la siguiente
 
 	for i in range(0,4):
 		if (partes[i]!=''):
@@ -193,31 +216,34 @@ def EscucharCancion(x:int) -> 'void':
 		else:
 			pass
 
-	sp = midi.realtime.StreamPlayer(cancion)
-	os.system('clear')
+	sp = midi.realtime.StreamPlayer(cancion) #Creamos un archivo Midi temporal para reproducir
+	os.system('clear') #Utilizamos esta función para limpiar la pantalla de la terminal y solo se vea el mensaje en pantalla
 	print("Reproduciendo composición completa")
-	sp.play()
+	sp.play() #reproducimos la composición completa
 def Registrar(x:int) -> 'void':
-	os.system('clear')
+	os.system('clear') #Utilizamos esta función para limpiar la pantalla de la terminal y solo se vea el menú en ejecución
+	
+	#Se Solicita la entrada de la entrada del archivo de manera Robusta, así en caso de errores, la persona puede
+	#continuar ingesando numeros hasta que este el valor correcto
+
 	while True:
 			try:
-				#Aqui falta ver como anular la operación
 				z=str(input("Introduzca el nombre exacto del archivo a reporducir: "))
-				partes[x-1] = converter.parse(z)
+				partes[x-1] = converter.parse(z) #Convertimos el archivo de texto "Tinynotation" en un archivo part de music21
 				break
 			except:
 				print("El archivo no existe, intente de nuevo")
 		
-	os.system('clear')
+	os.system('clear') #Utilizamos esta función para limpiar la pantalla de la terminal y solo se vea el mensaje en pantalla
 	print("---------------------------------------------------------")
 	print("El archivo fue cargado de manera exitosa en la parte ",x)
 	print("---------------------------------------------------------")
 	time.delay(5000)
 
 	RegistroPartes(x)
-def Reproduciendo(x) -> 'void':
+def Reproduciendo(x:int) -> 'void':
 	#Primero verificamos si la parte que el usurio desea ya tiene un registro
-	os.system('clear')
+	os.system('clear') #Utilizamos esta función para limpiar la pantalla de la terminal y solo se vea el menú en ejecución
 	if (partes[x-1]==''):
 		#En este caso, en el arreglo donde se guardan las partes no posee ninguna "part" registrada, por ende se informa			
 		print("Esta parte aun no tiene registro")
@@ -238,10 +264,10 @@ def Reproduciendo(x) -> 'void':
 	
 
 	RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
-def Borrar(x) -> 'void':
+def Borrar(x:int) -> 'void':
 	partes[x-1] = '' #Sustituimos el contenido de esta parte del arreglo por un espacio vacio de tipo string, así el
 					 #contenido que había sido registrado ene sta parte es eliminado
-	os.system('clear')
+	os.system('clear') #Utilizamos esta función para limpiar la pantalla de la terminal y solo se vea el menú en ejecución
 	print("Esta parte ha sido borrada exitosamente")
 	time.delay(5000)
 	RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
