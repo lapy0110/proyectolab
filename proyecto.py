@@ -7,23 +7,26 @@
 
 ######################################################### Librerias ################################################
 
-import sys
-from tkinter import *
-from music21 import *
-from pygame import *
+import sys #Librería que nos permite relizatr el final del programa
+import os #Librería utilizada en la interfaz de terminal para limpiar la pantalla 
+from tkinter import * #Librería de la interfaz Grafica
+from tkinter import ttk  #Librería de la interfaz Grafica
+from music21 import * #Librería base del proyecto
+from pygame import * #Librería base del proyecto
+
 
 ####################################################### Interfaz Grafica ###########################################
 
 #Ventana inicial
 
 #Ventana
-raiz= Tk() #Definimos la ventana raiz de nuestro programa
-raiz.geometry('300x200') #Definimos el tamaño que tendra nuestra ventana
-raiz.title('Compositor Musical') #Definimos el titulo de la ventana principal
+#raiz= Tk() #Definimos la ventana raiz de nuestro programa
+#raiz.geometry('300x200') #Definimos el tamaño que tendra nuestra ventana
+#raiz.title('Compositor Musical') #Definimos el titulo de la ventana principal
 
 #Botones
-ttk.Button(raiz, text='Salir',command=quit).pack(side=bottom)
-raiz.mainloop()
+#ttk.Button(raiz, text='Salir',command=quit).pack(side=BOTTOM)
+#raiz.mainloop()
 
 ######################################################## Variables #################################################
 
@@ -38,6 +41,9 @@ def MenuComposición (x) -> 'void':
 	#Postcondición: True 
 	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
 
+	os.system('clear')
+	print("---------------------------------------------")
+	print("                MENU PRINCIPAL               ")
 	print("---------------------------------------------")
 	print("1-. Registrar Parte 1")
 	print("2-. Registrar Parte 2")
@@ -62,20 +68,19 @@ def MenuComposición (x) -> 'void':
 
 	if (0<y<5):
 		RegistroPartes(y)
-	elif(y==5):
-		print("Esta función permite escuchar la composición completa")
+	elif(y==5):	
+		EscucharCancion(x)
 		MenuComposición(x)
 	else:
 		#Se utiliza la librería Sys para poder finalizar el programa
 		sys.exit()
-
-#--------------------------------------------------------------------------------------
 def RegistroPartes(x) -> 'void':
 	#Precondición: 0<y<7
 	#Postcondición: True
 	
 	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
 
+	os.system('clear')
 	print("---------------------------------------------")
 	print("          ESTAS EN EL MENU DE LA PARTE ",x)
 	print("---------------------------------------------")
@@ -109,7 +114,12 @@ def RegistroPartes(x) -> 'void':
 			except:
 				print("El archivo no existe, intente de nuevo")
 		
+		os.system('clear')
+		print("---------------------------------------------------------")
 		print("El archivo fue cargado de manera exitosa en la parte ",x)
+		print("---------------------------------------------------------")
+		time.delay(5000)
+
 		RegistroPartes(x)
 
 	elif(y==2):
@@ -126,6 +136,7 @@ def RegistroPartes(x) -> 'void':
 		if (partes[x-1]==''):
 			#En este caso, en el arreglo donde se guardan las partes no posee ninguna "part" registrada, por ende se informa
 			print("Esta parte aun no tiene registro")
+			time.delay(5000)
 			RegistroPartes(x)
 		else:
 			#En este caso ya existe una parte registrada, se procede a realizar la reproedyucción de la melodía 
@@ -134,6 +145,7 @@ def RegistroPartes(x) -> 'void':
 				print("Reproduciendo...")
 			except:
 				print("Esta parte no se puede reproducir")
+				time.delay(5000)
 				RegistroPartes(x)
 			
 			sp.play()
@@ -143,13 +155,13 @@ def RegistroPartes(x) -> 'void':
 	elif(y==5):
 		partes[x-1] = '' #Sustituimos el contenido de esta parte del arreglo por un espacio vacio de tipo string, así el
 		#contenido que había sido registrado ene sta parte es eliminado
+		os.system('clear')
 		print("Esta parte ha sido borrada exitosamente")
+		time.delay(5000)
 		RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
 
 	else:
 		MenuComposición(x) # En caso de que el usurio lo solciite, se regresa al menú previo
-
-#--------------------------------------------------------------------------------------
 def transporte(x) -> 'void':
 	
 	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
@@ -174,15 +186,16 @@ def transporte(x) -> 'void':
 			
 	if (partes[x-1]==''):
 		print("No existe una parte registrada")
+		time.delay(5000)
 	else:
 		d=c+str(i)#Convertimos el valor entero que introdujo el usuario para poder realizar el transporte	
 		sp = partes[x-1].transpose(d)
 		partes[x-1]=sp
 		#Aqui queda pendiete filtrar los casos bases con un if o con Asserts
 		print("El transporte se realizó exitosamente")
+		time.delay(5000)
 	
 	RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
-#------------------------------------------------------------------------------------
 def Arpegio(x:int) -> 'void':
 	global partes #Declaramos el arreglo global "partes" donde se guardan las partes que se registran en el programa
 
@@ -212,30 +225,49 @@ def Arpegio(x:int) -> 'void':
 	No = a + str(b) #Utilizando la entrada del usuario generamos una nota incial para el arpegio
 	h = c + str(i) #Utilizando la entrada del usuario generamos el intervalo de transporte del arpegio
 
-	arpegio= stream.Part()
-	nota=note.Note(No) #Damos el atributo de Nota a la varible "nota" para realizar el arpegio
+	arpegio = stream.Part()
+	nota = note.Note(No) #Damos el atributo de Nota a la varible "nota" para realizar el arpegio
 
 	for i in range(0, 8):
 		arpegio.append(nota)
-		nota = nota.transpose(c)
+		nota = nota.transpose(h)
 
 	partes[x-1] = arpegio
-		
-	
+	os.system('clear')
+	print("El arpegio ha sido creado exitosamente")
+	time.delay(5000)
+	RegistroPartes(x)
+def EscucharCancion(x:int) -> 'void':
+	cancion=stream.Score()
+
+	for i in range(0,3):
+		if (partes[i]!=''):
+			cancion.insert(0,partes[i])
+		else:
+			pass
+
+	sp = midi.realtime.StreamPlayer(cancion)
+	print("Reproduciendo composición completa")
+	sp.play()
+
 ################################################### Programa Principal ############################################## 
 
-print("Bienvenido al compositor musical")
+os.system('clear')
+print("---------------------------------------------")
+print("      Bienvenido al compositor musical")
+print("---------------------------------------------")
 print("Seleccione la opción que desea realizar:")
-print("	1-.Cargar Composición")
-print("	2-.Salir")
+print("	1-.Utilizar interfaz de terminal")
+print(" 2-.Utilizar interfaz Grafica")
+print("	3-.Salir")
 
 #Precondición
 #Se Solicita la entrada del menú de manera Robusta, así en caso de errores, la persona puede
 #continuar ingesando numeros hasta que este el valor correcto
 while True:
 	try:
-		e=int(input("Inserte la opicón que considere: "))
-		assert(0<e<3)
+		e=int(input("Inserte la opción que considere: "))
+		assert(0<e<4)
 		break
 	except:
 		print("Esta opción no esta dentro del menú")
@@ -246,6 +278,8 @@ if (e==1):
 	#Se ingresa al submenú donde aparecen las opciones de la composición
 	MenuComposición(e)
 elif(e==2):
+	Grafica(e)
+elif(e==3):
 	#Se utiliza la librería Sys para finalizar el programa
 	sys.exit()
 
