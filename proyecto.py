@@ -9,24 +9,8 @@
 
 import sys #Librería que nos permite relizatr el final del programa
 import os #Librería utilizada en la interfaz de terminal para limpiar la pantalla 
-from tkinter import * #Librería de la interfaz Grafica
-from tkinter import ttk  #Librería de la interfaz Grafica
 from music21 import * #Librería base del proyecto
 from pygame import * #Librería base del proyecto
-
-
-####################################################### Interfaz Grafica ###########################################
-
-#Ventana inicial
-
-#Ventana
-#raiz= Tk() #Definimos la ventana raiz de nuestro programa
-#raiz.geometry('300x200') #Definimos el tamaño que tendra nuestra ventana
-#raiz.title('Compositor Musical') #Definimos el titulo de la ventana principal
-
-#Botones
-#ttk.Button(raiz, text='Salir',command=quit).pack(side=BOTTOM)
-#raiz.mainloop()
 
 ######################################################## Variables #################################################
 
@@ -105,61 +89,17 @@ def RegistroPartes(x) -> 'void':
 	#Procedemos a continuar la función dependiendo de la opción seleccionada por el usuario
 
 	if (y==1):
-		while True:
-			try:
-				#Aqui falta ver como anular la operación
-				z=str(input("Introduzca el nombre exacto del archivo a reporducir: "))
-				partes[x-1] = converter.parse(z)
-				break
-			except:
-				print("El archivo no existe, intente de nuevo")
-		
-		os.system('clear')
-		print("---------------------------------------------------------")
-		print("El archivo fue cargado de manera exitosa en la parte ",x)
-		print("---------------------------------------------------------")
-		time.delay(5000)
-
-		RegistroPartes(x)
-
+		Registrar(x)
 	elif(y==2):
 		Arpegio(x) #Hacemos el llamado a la función Arpegio donde se realiza el proceso de creación de un arpegio para guardarlo
 		#en la parte que solicite el usuario
-
 	elif(y==3):
 		transporte(x) #Hacemos el llamado a la función Transporte donde se realiza el transprote de la melodía solciitada por el
 		#usuario
-
 	elif(y==4):
-
-		#Primero verificamos si la parte que el usurio desea ya tiene un registro
-		if (partes[x-1]==''):
-			#En este caso, en el arreglo donde se guardan las partes no posee ninguna "part" registrada, por ende se informa
-			print("Esta parte aun no tiene registro")
-			time.delay(5000)
-			RegistroPartes(x)
-		else:
-			#En este caso ya existe una parte registrada, se procede a realizar la reproedyucción de la melodía 
-			try:
-				sp = midi.realtime.StreamPlayer(partes[x-1])
-				print("Reproduciendo...")
-			except:
-				print("Esta parte no se puede reproducir")
-				time.delay(5000)
-				RegistroPartes(x)
-			
-			sp.play()
-
-		RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
-
+		Reproduciendo(x)
 	elif(y==5):
-		partes[x-1] = '' #Sustituimos el contenido de esta parte del arreglo por un espacio vacio de tipo string, así el
-		#contenido que había sido registrado ene sta parte es eliminado
-		os.system('clear')
-		print("Esta parte ha sido borrada exitosamente")
-		time.delay(5000)
-		RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
-
+		Borrar(x)
 	else:
 		MenuComposición(x) # En caso de que el usurio lo solciite, se regresa al menú previo
 def transporte(x) -> 'void':
@@ -249,6 +189,52 @@ def EscucharCancion(x:int) -> 'void':
 	sp = midi.realtime.StreamPlayer(cancion)
 	print("Reproduciendo composición completa")
 	sp.play()
+def Registrar(x:int) -> 'void':
+	while True:
+			try:
+				#Aqui falta ver como anular la operación
+				z=str(input("Introduzca el nombre exacto del archivo a reporducir: "))
+				partes[x-1] = converter.parse(z)
+				break
+			except:
+				print("El archivo no existe, intente de nuevo")
+		
+	os.system('clear')
+	print("---------------------------------------------------------")
+	print("El archivo fue cargado de manera exitosa en la parte ",x)
+	print("---------------------------------------------------------")
+	time.delay(5000)
+
+	RegistroPartes(x)
+def Reproduciendo(x) -> 'void':
+	#Primero verificamos si la parte que el usurio desea ya tiene un registro
+	if (partes[x-1]==''):
+		#En este caso, en el arreglo donde se guardan las partes no posee ninguna "part" registrada, por ende se informa			
+		print("Esta parte aun no tiene registro")
+		time.delay(5000)
+		RegistroPartes(x)
+	else:
+			#En este caso ya existe una parte registrada, se procede a realizar la reproedyucción de la melodía 
+		try:
+			sp = midi.realtime.StreamPlayer(partes[x-1])
+			print("Reproduciendo...")
+		except:
+			print("Esta parte no se puede reproducir")
+			time.delay(5000)
+			RegistroPartes(x)
+			
+		sp.play()
+
+	
+
+	RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
+def Borrar(x) -> 'void':
+	partes[x-1] = '' #Sustituimos el contenido de esta parte del arreglo por un espacio vacio de tipo string, así el
+					 #contenido que había sido registrado ene sta parte es eliminado
+	os.system('clear')
+	print("Esta parte ha sido borrada exitosamente")
+	time.delay(5000)
+	RegistroPartes(x) # Regresamos al menú anterior para que el usuario decida la siguiente acción
 
 ################################################### Programa Principal ############################################## 
 
@@ -257,9 +243,8 @@ print("---------------------------------------------")
 print("      Bienvenido al compositor musical")
 print("---------------------------------------------")
 print("Seleccione la opción que desea realizar:")
-print("	1-.Utilizar interfaz de terminal")
-print(" 2-.Utilizar interfaz Grafica")
-print("	3-.Salir")
+print("	1-.Iniciar")
+print("	2-.Salir")
 
 #Precondición
 #Se Solicita la entrada del menú de manera Robusta, así en caso de errores, la persona puede
@@ -267,7 +252,7 @@ print("	3-.Salir")
 while True:
 	try:
 		e=int(input("Inserte la opción que considere: "))
-		assert(0<e<4)
+		assert(0<e<3)
 		break
 	except:
 		print("Esta opción no esta dentro del menú")
@@ -278,8 +263,6 @@ if (e==1):
 	#Se ingresa al submenú donde aparecen las opciones de la composición
 	MenuComposición(e)
 elif(e==2):
-	Grafica(e)
-elif(e==3):
 	#Se utiliza la librería Sys para finalizar el programa
 	sys.exit()
 
